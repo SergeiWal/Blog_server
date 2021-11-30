@@ -8,27 +8,31 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
+import { ObjectId } from 'mongoose';
+import { ArticlesService } from './articles.service';
 import { CrerateArticleDto } from './dto/create-article.dto';
 
 @Controller('articles')
 export class ArticlesController {
+  constructor(private articleService: ArticlesService) {}
+
   @Get()
-  findAll(): string {
-    return 'Articles';
+  async findAll() {
+    return await this.articleService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return `Article ${id}`;
+  async findOne(@Param() id: ObjectId) {
+    return await this.articleService.findOne(id);
   }
 
   @Post()
-  create(@Body() crerateArticleDto: CrerateArticleDto) {
-    return 'Create articles';
+  async create(@Body() crerateArticleDto: CrerateArticleDto) {
+    return await this.articleService.create(crerateArticleDto);
   }
 
   @Patch(':id')
-  addLike(@Param('id', ParseIntPipe) id: number) {
+  addLike(@Param() id: ObjectId) {
     return `Likes updated for article ${id}`;
   }
 
@@ -38,7 +42,7 @@ export class ArticlesController {
   }
 
   @Delete(':id')
-  delete(@Param('id', ParseIntPipe) id: number) {
-    return `Delete article ${id}`;
+  delete(@Param() id: ObjectId) {
+    return this.articleService.delete(id);
   }
 }

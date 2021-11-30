@@ -1,4 +1,6 @@
+import { User } from 'src/user/users.schema';
+
 export class CreateCommentDto {
-  owner: string;
+  author: User;
   text: string;
 }

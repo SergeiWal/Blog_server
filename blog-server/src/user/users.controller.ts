@@ -4,40 +4,44 @@ import {
   Delete,
   Get,
   Param,
-  ParseIntPipe,
   Patch,
   Post,
 } from '@nestjs/common';
+import { ObjectId } from 'mongoose';
 import { AddBookmarkDto } from './dto/add-bookmark.dto';
 import { CreateUserDto } from './dto/create-user.dto';
+import { User } from './users.schema';
+import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
+  constructor(private userService: UsersService) {}
+
   @Get()
-  findAll(): string {
-    return 'users';
+  async findAll(): Promise<User[]> {
+    return await this.userService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number): string {
-    return `User ${id}`;
+  async findOne(@Param() id: ObjectId): Promise<User> {
+    return await this.userService.findOne(id);
   }
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto): string {
-    return 'New user has been authorized';
+  async create(@Body() createUserDto: CreateUserDto): Promise<User> {
+    return await this.userService.create(createUserDto);
   }
 
   @Patch(':id')
-  addBookmark(
-    @Param('id', ParseIntPipe) id: number,
+  async addBookmark(
+    @Param() id: ObjectId,
     @Body() addBookmarkDto: AddBookmarkDto,
-  ): string {
-    return `Bookmark has been added to user ${id}`;
+  ) {
+    return await this.userService.addBookMark(id, addBookmarkDto);
   }
 
   @Delete(':id')
-  deleteOne(@Param('id', ParseIntPipe) id: number): string {
-    return `User ${id} has been deleted`;
+  async deleteOne(@Param() id: ObjectId) {
+    return this.userService.delete(id);
   }
 }

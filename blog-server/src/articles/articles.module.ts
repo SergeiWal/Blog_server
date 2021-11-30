@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ArticlesController } from './articles.controller';
+import { Article, ArticleSchema } from './articles.schema';
+import { ArticlesService } from './articles.service';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(
-      'mongodb+srv://SergeiValko:R5cIiEXgfvm7kFGj@bstu.hhzuf.mongodb.net/bstu?retryWrites=true&w=majority',
-    ),
+    MongooseModule.forFeature([{ name: Article.name, schema: ArticleSchema }]),
   ],
   controllers: [ArticlesController],
+  providers: [ArticlesService],
 })
 export class ArticlesModule {}
