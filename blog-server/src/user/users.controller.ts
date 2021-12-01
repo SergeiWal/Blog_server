@@ -23,8 +23,13 @@ export class UsersController {
   }
 
   @Get(':id')
-  async findOne(@Param() id: ObjectId): Promise<User> {
+  async findOne(@Param('id') id: string) {
     return await this.userService.findOne(id);
+  }
+
+  @Get('/login/:name')
+  async findOneByName(@Param('name') name: string): Promise<User> {
+    return await this.userService.findOneByUsername(name);
   }
 
   @Post()
@@ -34,14 +39,14 @@ export class UsersController {
 
   @Patch(':id')
   async addBookmark(
-    @Param() id: ObjectId,
+    @Param('id') id: string,
     @Body() addBookmarkDto: AddBookmarkDto,
   ) {
     return await this.userService.addBookMark(id, addBookmarkDto);
   }
 
   @Delete(':id')
-  async deleteOne(@Param() id: ObjectId) {
+  async deleteOne(@Param('id') id: string) {
     return this.userService.delete(id);
   }
 }

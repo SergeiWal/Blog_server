@@ -7,7 +7,6 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { ObjectId } from 'mongoose';
 import { ArticlesService } from './articles.service';
 import { AddCommentDto } from './dto/add-comment.dto';
 import { AddLikeDto } from './dto/add-like.dto';
@@ -23,7 +22,7 @@ export class ArticlesController {
   }
 
   @Get(':id')
-  async findOne(@Param() id: ObjectId) {
+  async findOne(@Param('id') id: string) {
     return await this.articleService.findOne(id);
   }
 
@@ -43,7 +42,7 @@ export class ArticlesController {
   }
 
   @Delete(':id')
-  async delete(@Param() id: ObjectId) {
+  async delete(@Param('id') id: string) {
     return await this.articleService.delete(id);
   }
 }

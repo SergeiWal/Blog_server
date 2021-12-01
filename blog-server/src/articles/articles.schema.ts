@@ -16,7 +16,7 @@ export class Article {
   @Prop()
   text: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Author' })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   author: User;
 
   @Prop()
@@ -28,10 +28,10 @@ export class Article {
   @Prop()
   updateDate: Date;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Likes' })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   likes: User[];
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Comments' })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Comment.name })
   comments: Comment[];
 }
 

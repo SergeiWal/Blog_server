@@ -1,7 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, ObjectId } from 'mongoose';
-import { Comment, CommentDocument } from 'src/comments/comments.schema';
+import { Model } from 'mongoose';
 import { CommentsService } from 'src/comments/comments.service';
 import { Article, ArticleDocument } from './articles.schema';
 import { AddCommentDto } from './dto/add-comment.dto';
@@ -16,11 +15,15 @@ export class ArticlesService {
   ) {}
 
   async findAll(): Promise<Article[]> {
-    return await this.articleModel.find().exec();
+    return await this.articleModel.find();
   }
 
-  async findOne(id: ObjectId): Promise<Article> {
-    return await this.articleModel.findById(id);
+  async findOne(id: string): Promise<Article> {
+    const article = await this.articleModel.findById(id);
+    if (!article) {
+      throw new NotFoundException();
+    }
+    return article;
   }
 
   async create(articleDto: CrerateArticleDto): Promise<Article> {
@@ -30,8 +33,10 @@ export class ArticlesService {
 
   async addLike(addLikeDto: AddLikeDto) {
     const { id, user } = addLikeDto;
-    const articlePromise = await this.articleModel.findById(id);
-    const { likes } = await articlePromise;
+    const { likes } = await this.articleModel.findById(id);
+    if (!likes) {
+      throw new NotFoundException();
+    }
     likes.push(user);
     return await this.articleModel.updateOne({ _id: id }, { likes });
   }
@@ -39,13 +44,19 @@ export class ArticlesService {
   async addComment(addCommentDto: AddCommentDto) {
     const { articleId, commentId } = addCommentDto;
     const comment = await this.commentService.findOne(commentId);
-    const articlePromise = await this.articleModel.findById(articleId);
-    const { comments } = await articlePromise;
+    const { comments } = await this.articleModel.findById(articleId);
+    if (!comments) {
+      throw new NotFoundException();
+    }
     comments.push(comment);
     return await this.articleModel.updateOne({ _id: articleId }, { comments });
   }
 
-  async delete(id: ObjectId): Promise<Article> {
-    return await this.articleModel.findByIdAndDelete(id);
+  async delete(id: string): Promise<Article> {
+    const article = await this.articleModel.findByIdAndDelete(id);
+    if (!article) {
+      throw new NotFoundException();
+    }
+    return article;
   }
 }

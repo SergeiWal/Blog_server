@@ -10,7 +10,7 @@ export class CommentsService {
     @InjectModel(Comment.name) private commentModel: Model<CommentDocument>,
   ) {}
 
-  async findOne(id: ObjectId) {
+  async findOne(id: string) {
     return await this.commentModel.findById(id);
   }
 

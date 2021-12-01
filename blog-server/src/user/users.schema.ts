@@ -7,23 +7,33 @@ export type UserDocument = User & Document;
 
 @Schema()
 export class User {
-  @Prop()
+  @Prop({ required: true })
   name: string;
 
-  @Prop()
+  @Prop({ required: true })
   password: string;
 
-  @Prop()
+  @Prop({ required: true })
   photo: string;
 
-  @Prop()
-  role: Role[];
+  @Prop({ required: true, enum: ['ADMIN', 'USER'] })
+  role: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Posts' })
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    required: false,
+    ref: Article.name,
+  })
   posts: Article[];
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Bookmarks' })
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    required: false,
+    ref: Article.name,
+  })
   bookmarks: Article[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
+
+//деньги были, деньги будут, но щас их нет
