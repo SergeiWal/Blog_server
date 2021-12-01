@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { time } from 'console';
 import { Model, ObjectId } from 'mongoose';
-import { threadId } from 'worker_threads';
 import { AddBookmarkDto } from './dto/add-bookmark.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User, UserDocument } from './users.schema';
@@ -33,7 +31,7 @@ export class UsersService {
     return await this.usersModel.updateOne({ _id: id }, { bookmarks });
   }
 
-  async delete(id: ObjectId) {
-    return await this.usersModel.deleteOne({ _id: id }).exec();
+  async delete(id: ObjectId): Promise<User> {
+    return await this.usersModel.findByIdAndDelete(id);
   }
 }

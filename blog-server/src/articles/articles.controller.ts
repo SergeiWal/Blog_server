@@ -4,12 +4,13 @@ import {
   Delete,
   Get,
   Param,
-  ParseIntPipe,
   Patch,
   Post,
 } from '@nestjs/common';
 import { ObjectId } from 'mongoose';
 import { ArticlesService } from './articles.service';
+import { AddCommentDto } from './dto/add-comment.dto';
+import { AddLikeDto } from './dto/add-like.dto';
 import { CrerateArticleDto } from './dto/create-article.dto';
 
 @Controller('articles')
@@ -31,18 +32,18 @@ export class ArticlesController {
     return await this.articleService.create(crerateArticleDto);
   }
 
-  @Patch(':id')
-  addLike(@Param() id: ObjectId) {
-    return `Likes updated for article ${id}`;
+  @Patch()
+  async addLike(@Body() addLikeDto: AddLikeDto) {
+    return await this.articleService.addLike(addLikeDto);
   }
 
-  @Patch(':id')
-  addComment(@Param('id', ParseIntPipe) id: number) {
-    return `Added comment to article ${id}`;
+  @Patch()
+  async addComment(@Body() addCommentDto: AddCommentDto) {
+    return await this.articleService.addComment(addCommentDto);
   }
 
   @Delete(':id')
-  delete(@Param() id: ObjectId) {
-    return this.articleService.delete(id);
+  async delete(@Param() id: ObjectId) {
+    return await this.articleService.delete(id);
   }
 }
