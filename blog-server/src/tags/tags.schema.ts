@@ -5,7 +5,7 @@ export type TagDocument = Tag & Document;
 
 @Schema()
 export class Tag {
-  @Prop()
+  @Prop({ required: true, unique: true })
   name: string;
 }
 

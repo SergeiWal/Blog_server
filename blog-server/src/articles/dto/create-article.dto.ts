@@ -1,6 +1,6 @@
 export class CrerateArticleDto {
   title: string;
-  subtittle: string;
+  subtitle: string;
   text: string;
   img: string;
   author: string;

@@ -15,7 +15,11 @@ export class ArticlesService {
   ) {}
 
   async findAll(): Promise<Article[]> {
-    return await this.articleModel.find();
+    return await this.articleModel
+      .find()
+      .populate('author')
+      .populate('likes')
+      .populate('tags');
   }
 
   async findOne(id: string): Promise<Article> {
@@ -31,26 +35,26 @@ export class ArticlesService {
     return await newArticle.save();
   }
 
-  async addLike(addLikeDto: AddLikeDto) {
-    const { id, user } = addLikeDto;
-    const { likes } = await this.articleModel.findById(id);
-    if (!likes) {
-      throw new NotFoundException();
-    }
-    likes.push(user);
-    return await this.articleModel.updateOne({ _id: id }, { likes });
-  }
+  // async addLike(addLikeDto: AddLikeDto) {
+  //   const { id, user } = addLikeDto;
+  //   const { likes } = await this.articleModel.findById(id);
+  //   if (!likes) {
+  //     throw new NotFoundException();
+  //   }
+  //   likes.push(user);
+  //   return await this.articleModel.updateOne({ _id: id }, { likes });
+  // }
 
-  async addComment(addCommentDto: AddCommentDto) {
-    const { articleId, commentId } = addCommentDto;
-    const comment = await this.commentService.findOne(commentId);
-    const { comments } = await this.articleModel.findById(articleId);
-    if (!comments) {
-      throw new NotFoundException();
-    }
-    comments.push(comment);
-    return await this.articleModel.updateOne({ _id: articleId }, { comments });
-  }
+  // async addComment(addCommentDto: AddCommentDto) {
+  //   const { articleId, commentId } = addCommentDto;
+  //   const comment = await this.commentService.findOne(commentId);
+  //   const { comments } = await this.articleModel.findById(articleId);
+  //   if (!comments) {
+  //     throw new NotFoundException();
+  //   }
+  //   comments.push(comment);
+  //   return await this.articleModel.updateOne({ _id: articleId }, { comments });
+  // }
 
   async delete(id: string): Promise<Article> {
     const article = await this.articleModel.findByIdAndDelete(id);

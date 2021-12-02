@@ -5,7 +5,6 @@ import { AddBookmarkDto } from './dto/add-bookmark.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User, UserDocument } from './users.schema';
 import * as mongoose from 'mongoose';
-import { NotFoundError } from 'rxjs';
 
 @Injectable()
 export class UsersService {
@@ -14,7 +13,7 @@ export class UsersService {
   ) {}
 
   async findAll(): Promise<User[]> {
-    return await this.usersModel.find();
+    return await this.usersModel.find().populate('bookmarks');
   }
 
   async findOne(id: string) {
@@ -40,15 +39,15 @@ export class UsersService {
     return await createUser.save();
   }
 
-  async addBookMark(id: string, addBookmarkDto: AddBookmarkDto) {
-    const { article } = addBookmarkDto;
-    const { bookmarks } = await this.usersModel.findById(id);
-    if (!bookmarks) {
-      throw new NotFoundException();
-    }
-    bookmarks.push(article);
-    return await this.usersModel.updateOne({ _id: id }, { bookmarks });
-  }
+  // async addBookMark(id: string, addBookmarkDto: AddBookmarkDto) {
+  //   const { article } = addBookmarkDto;
+  //   const { bookmarks } = await this.usersModel.findById(id);
+  //   if (!bookmarks) {
+  //     throw new NotFoundException();
+  //   }
+  //   bookmarks.push(article);
+  //   return await this.usersModel.updateOne({ _id: id }, { bookmarks });
+  // }
 
   async setAdminRole(id: string) {
     return await this.usersModel.updateOne({ _id: id }, { role: 'ADMIN' });

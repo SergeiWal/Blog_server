@@ -31,21 +31,23 @@ export class ArticlesController {
 
   @Post()
   @Header('Access-Control-Allow-Origin', '*')
+  @Header('Access-Control-Allow-Methods', 'POST')
   async create(@Body() crerateArticleDto: CrerateArticleDto) {
+    console.info(crerateArticleDto);
     return await this.articleService.create(crerateArticleDto);
   }
 
-  @Patch()
-  @Header('Access-Control-Allow-Origin', '*')
-  async addLike(@Body() addLikeDto: AddLikeDto) {
-    return await this.articleService.addLike(addLikeDto);
-  }
+  // @Patch()
+  // @Header('Access-Control-Allow-Origin', '*')
+  // async addLike(@Body() addLikeDto: AddLikeDto) {
+  //   return await this.articleService.addLike(addLikeDto);
+  // }
 
-  @Patch()
-  @Header('Access-Control-Allow-Origin', '*')
-  async addComment(@Body() addCommentDto: AddCommentDto) {
-    return await this.articleService.addComment(addCommentDto);
-  }
+  // @Patch()
+  // @Header('Access-Control-Allow-Origin', '*')
+  // async addComment(@Body() addCommentDto: AddCommentDto) {
+  //   return await this.articleService.addComment(addCommentDto);
+  // }
 
   @Delete(':id')
   @Header('Access-Control-Allow-Origin', '*')

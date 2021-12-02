@@ -7,7 +7,7 @@ export type UserDocument = User & Document;
 
 @Schema()
 export class User {
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   name: string;
 
   @Prop({ required: true })
@@ -22,21 +22,8 @@ export class User {
   @Prop({ required: true })
   activate: boolean;
 
-  @Prop({
-    type: mongoose.Schema.Types.ObjectId,
-    required: false,
-    ref: 'Article',
-  })
-  posts: Article[];
-
-  @Prop({
-    type: mongoose.Schema.Types.ObjectId,
-    required: false,
-    ref: 'Article',
-  })
-  bookmarks: Article[];
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Article' }] })
+  bookmarks: Article;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
-
-//деньги были, деньги будут, но щас их нет

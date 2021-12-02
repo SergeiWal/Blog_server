@@ -41,14 +41,14 @@ export class UsersController {
     return await this.userService.create(createUserDto);
   }
 
-  @Patch(':id')
-  @Header('Access-Control-Allow-Origin', '*')
-  async addBookmark(
-    @Param('id') id: string,
-    @Body() addBookmarkDto: AddBookmarkDto,
-  ) {
-    return await this.userService.addBookMark(id, addBookmarkDto);
-  }
+  // @Patch(':id')
+  // @Header('Access-Control-Allow-Origin', '*')
+  // async addBookmark(
+  //   @Param('id') id: string,
+  //   @Body() addBookmarkDto: AddBookmarkDto,
+  // ) {
+  //   return await this.userService.addBookMark(id, addBookmarkDto);
+  // }
 
   @Patch('/role/:id')
   @Header('Access-Control-Allow-Origin', '*')
