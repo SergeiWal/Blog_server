@@ -19,17 +19,20 @@ export class User {
   @Prop({ required: true, enum: ['ADMIN', 'USER'] })
   role: string;
 
+  @Prop({ required: true })
+  activate: boolean;
+
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     required: false,
-    ref: Article.name,
+    ref: 'Article',
   })
   posts: Article[];
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     required: false,
-    ref: Article.name,
+    ref: 'Article',
   })
   bookmarks: Article[];
 }

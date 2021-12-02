@@ -36,6 +36,7 @@ export class UsersService {
   async create(createUserDto: CreateUserDto): Promise<User> {
     const createUser = new this.usersModel(createUserDto);
     createUser.role = 'USER';
+    createUser.activate = true;
     return await createUser.save();
   }
 
@@ -47,6 +48,22 @@ export class UsersService {
     }
     bookmarks.push(article);
     return await this.usersModel.updateOne({ _id: id }, { bookmarks });
+  }
+
+  async setAdminRole(id: string) {
+    return await this.usersModel.updateOne({ _id: id }, { role: 'ADMIN' });
+  }
+
+  async setUnsetActivate(id: string) {
+    const user = await this.usersModel.findById(id);
+    if (!user) {
+      throw new NotFoundException();
+    }
+
+    return await this.usersModel.updateOne(
+      { _id: id },
+      { activate: !user.activate },
+    );
   }
 
   async delete(id: string): Promise<User> {
