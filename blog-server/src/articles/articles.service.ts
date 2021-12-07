@@ -1,17 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CommentsService } from 'src/comments/comments.service';
 import { Article, ArticleDocument } from './articles.schema';
-import { AddCommentDto } from './dto/add-comment.dto';
-import { AddLikeDto } from './dto/add-like.dto';
 import { CrerateArticleDto } from './dto/create-article.dto';
 
 @Injectable()
 export class ArticlesService {
   constructor(
     @InjectModel(Article.name) private articleModel: Model<ArticleDocument>,
-    private commentService: CommentsService,
   ) {}
 
   async findAll(): Promise<Article[]> {
@@ -35,14 +31,13 @@ export class ArticlesService {
     return await newArticle.save();
   }
 
-  // async addLike(addLikeDto: AddLikeDto) {
-  //   const { id, user } = addLikeDto;
-  //   const { likes } = await this.articleModel.findById(id);
-  //   if (!likes) {
-  //     throw new NotFoundException();
-  //   }
-  //   likes.push(user);
-  //   return await this.articleModel.updateOne({ _id: id }, { likes });
+  // async addLike(_id: string, addLikeDto: UpdateArticleDto) {
+  //   const article = await (
+  //     await this.articleModel.findById(_id)
+  //   ).populate('likes');
+  //   article.likes = addLikeDto
+  //   console.log(article);
+  //   return article;
   // }
 
   // async addComment(addCommentDto: AddCommentDto) {

@@ -7,7 +7,7 @@ export type CommentDocument = Comment & Document;
 
 @Schema()
 export class Comment {
-  @Prop({ required: true })
+  @Prop({ required: true, unique: false })
   text: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })

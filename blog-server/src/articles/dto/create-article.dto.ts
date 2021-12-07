@@ -1,3 +1,5 @@
+import { Tag } from 'src/tags/tags.schema';
+
 export class CrerateArticleDto {
   title: string;
   subtitle: string;
@@ -6,4 +8,5 @@ export class CrerateArticleDto {
   author: string;
   date: Date;
   updateDate: Date;
+  tags: Tag[];
 }
