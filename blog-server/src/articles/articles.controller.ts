@@ -33,7 +33,6 @@ export class ArticlesController {
   @Header('Access-Control-Allow-Origin', '*')
   @Header('Access-Control-Allow-Methods', 'POST')
   async create(@Body() crerateArticleDto: CrerateArticleDto) {
-    console.info(crerateArticleDto);
     return await this.articleService.create(crerateArticleDto);
   }
 

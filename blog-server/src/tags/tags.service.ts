@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateTagDto } from './dto/create-tag.dto';
@@ -12,8 +12,16 @@ export class TagsService {
     return await this.tagsModel.find();
   }
 
-  async create(tagDto: CreateTagDto) {
-    const createTag = new this.tagsModel(tagDto);
+  async create(name: string) {
+    const createTag = new this.tagsModel({ name });
     return await createTag.save();
+  }
+
+  async delete(id: string) {
+    const tag = this.tagsModel.findByIdAndDelete(id);
+    if (!tag) {
+      throw new NotFoundException();
+    }
+    return tag;
   }
 }

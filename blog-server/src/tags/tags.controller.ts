@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Header, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Header,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { TagsService } from './tags.service';
 
@@ -12,9 +20,14 @@ export class TagsController {
     return await this.tagService.findAll();
   }
 
-  @Post()
+  @Post(':tag')
   @Header('Access-Control-Allow-Origin', '*')
-  async create(@Body() createTagDto: CreateTagDto) {
-    return await this.tagService.create(createTagDto);
+  async create(@Param('tag') tag: string) {
+    return await this.tagService.create(tag);
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: string) {
+    return await this.tagService.delete(id);
   }
 }
