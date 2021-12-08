@@ -13,5 +13,6 @@ import { CommentsService } from './comments.service';
   ],
   controllers: [CommentsController],
   providers: [CommentsService, ArticlesService],
+  exports: [ArticlesService],
 })
 export class CommentsModule {}
