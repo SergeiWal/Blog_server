@@ -8,6 +8,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { TagsModule } from './tags/tags.module';
 import { LikesModule } from './likes/likes.module';
+import { BookmarksModule } from './bookmarks/bookmarks.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { LikesModule } from './likes/likes.module';
     ArticlesModule,
     TagsModule,
     LikesModule,
+    BookmarksModule,
   ],
   controllers: [AppController],
   providers: [AppService],
