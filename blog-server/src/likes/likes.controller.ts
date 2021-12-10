@@ -1,7 +1,9 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { CreateLikeDto } from './dto/create-like.dto';
 import { LikesService } from './likes.service';
 
+@ApiTags('likes')
 @Controller('likes')
 export class LikesController {
   constructor(private likeService: LikesService) {}
@@ -20,6 +22,7 @@ export class LikesController {
   }
 
   @Post()
+  @ApiBody({ type: CreateLikeDto })
   async save(@Body() createLikeDto: CreateLikeDto) {
     return await this.likeService.save(createLikeDto);
   }

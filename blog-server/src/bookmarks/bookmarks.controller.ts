@@ -1,7 +1,9 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { BookmarksService } from './bookmarks.service';
 import { CreateBookmarkDto } from './dto/create-bookmark.dto';
 
+@ApiTags('bookmarks')
 @Controller('bookmarks')
 export class BookmarksController {
   constructor(private bookmarksService: BookmarksService) {}
@@ -15,6 +17,7 @@ export class BookmarksController {
   }
 
   @Post()
+  @ApiBody({ type: CreateBookmarkDto })
   async save(@Body() createBookmarkDto: CreateBookmarkDto) {
     return await this.bookmarksService.save(createBookmarkDto);
   }

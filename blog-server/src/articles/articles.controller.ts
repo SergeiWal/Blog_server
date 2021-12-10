@@ -1,17 +1,9 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Header,
-  Param,
-  Patch,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { ArticlesService } from './articles.service';
-import { AddCommentDto } from './dto/add-comment.dto';
 import { CrerateArticleDto } from './dto/create-article.dto';
 
+@ApiTags('articles')
 @Controller('articles')
 export class ArticlesController {
   constructor(private articleService: ArticlesService) {}
@@ -27,20 +19,10 @@ export class ArticlesController {
   }
 
   @Post()
+  @ApiBody({ type: CrerateArticleDto })
   async create(@Body() crerateArticleDto: CrerateArticleDto) {
     return await this.articleService.create(crerateArticleDto);
   }
-
-  // @Patch()
-  // async addLike(@Body() addLikeDto: AddLikeDto) {
-  //   return await this.articleService.addLike(addLikeDto);
-  // }
-
-  // @Patch()
-  // @Header('Access-Control-Allow-Origin', '*')
-  // async addComment(@Body() addCommentDto: AddCommentDto) {
-  //   return await this.articleService.addComment(addCommentDto);
-  // }
 
   @Delete(':id')
   async delete(@Param('id') id: string) {

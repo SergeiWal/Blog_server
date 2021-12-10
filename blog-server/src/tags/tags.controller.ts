@@ -1,6 +1,8 @@
 import { Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { TagsService } from './tags.service';
 
+@ApiTags('tags')
 @Controller('tags')
 export class TagsController {
   constructor(private tagService: TagsService) {}

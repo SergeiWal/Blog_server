@@ -1,15 +1,9 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Header,
-  Param,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create_comment.dto';
 
+@ApiTags('comments')
 @Controller('comments')
 export class CommentsController {
   constructor(private commentService: CommentsService) {}
@@ -30,6 +24,7 @@ export class CommentsController {
   }
 
   @Post()
+  @ApiBody({ type: CreateCommentDto })
   async create(@Body() createCommentDto: CreateCommentDto) {
     return await this.commentService.create(createCommentDto);
   }
