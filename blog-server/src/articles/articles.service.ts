@@ -10,8 +10,8 @@ export class ArticlesService {
     @InjectModel(Article.name) private articleModel: Model<ArticleDocument>,
   ) {}
 
-  async findAll(): Promise<Article[]> {
-    return await this.articleModel
+  findAll() {
+    return this.articleModel
       .find()
       .populate('author')
       .populate('likes')
@@ -28,28 +28,8 @@ export class ArticlesService {
 
   async create(articleDto: CrerateArticleDto): Promise<Article> {
     const newArticle = new this.articleModel(articleDto);
-    return await newArticle.save();
+    return newArticle.save();
   }
-
-  // async addLike(_id: string, addLikeDto: UpdateArticleDto) {
-  //   const article = await (
-  //     await this.articleModel.findById(_id)
-  //   ).populate('likes');
-  //   article.likes = addLikeDto
-  //   console.log(article);
-  //   return article;
-  // }
-
-  // async addComment(addCommentDto: AddCommentDto) {
-  //   const { articleId, commentId } = addCommentDto;
-  //   const comment = await this.commentService.findOne(commentId);
-  //   const { comments } = await this.articleModel.findById(articleId);
-  //   if (!comments) {
-  //     throw new NotFoundException();
-  //   }
-  //   comments.push(comment);
-  //   return await this.articleModel.updateOne({ _id: articleId }, { comments });
-  // }
 
   async delete(id: string): Promise<Article> {
     const article = await this.articleModel.findByIdAndDelete(id);

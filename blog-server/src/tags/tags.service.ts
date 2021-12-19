@@ -8,17 +8,17 @@ import { Tag, TagDocument } from './tags.schema';
 export class TagsService {
   constructor(@InjectModel(Tag.name) private tagsModel: Model<TagDocument>) {}
 
-  async findAll(): Promise<Tag[]> {
-    return await this.tagsModel.find();
+  findAll() {
+    return this.tagsModel.find();
   }
 
-  async create(name: string) {
+  create(name: string) {
     const createTag = new this.tagsModel({ name });
-    return await createTag.save();
+    return createTag.save();
   }
 
   async delete(id: string) {
-    const tag = this.tagsModel.findByIdAndDelete(id);
+    const tag = await this.tagsModel.findByIdAndDelete(id);
     if (!tag) {
       throw new NotFoundException();
     }

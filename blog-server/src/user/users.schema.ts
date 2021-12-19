@@ -1,8 +1,8 @@
 import * as mongoose from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Article } from 'src/articles/articles.schema';
+import { Role } from 'src/roles/role.enum';
 
-export type Role = 'User' | 'Admin';
 export type UserDocument = User & Document;
 
 @Schema()
@@ -16,8 +16,8 @@ export class User {
   @Prop({ required: true })
   photo: string;
 
-  @Prop({ required: true, enum: ['ADMIN', 'USER'] })
-  role: string;
+  @Prop({ required: true })
+  roles: Role[];
 
   @Prop({ required: true })
   activate: boolean;

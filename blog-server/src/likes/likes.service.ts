@@ -38,9 +38,9 @@ export class LikesService {
     return await this.likeModele.countDocuments({ article });
   }
 
-  async save(createLikeDto: CreateLikeDto) {
+  save(createLikeDto: CreateLikeDto) {
     const createLike = new this.likeModele(createLikeDto);
-    return await createLike.save();
+    return createLike.save();
   }
 
   async delete(article_id: string, user_id: string) {

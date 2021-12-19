@@ -9,6 +9,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TagsModule } from './tags/tags.module';
 import { LikesModule } from './likes/likes.module';
 import { BookmarksModule } from './bookmarks/bookmarks.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { BookmarksModule } from './bookmarks/bookmarks.module';
     TagsModule,
     LikesModule,
     BookmarksModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

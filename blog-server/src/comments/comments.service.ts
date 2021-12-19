@@ -13,12 +13,12 @@ export class CommentsService {
     private articleService: ArticlesService,
   ) {}
 
-  async findAll() {
-    return await this.commentModel.find();
+  findAll() {
+    return this.commentModel.find();
   }
 
-  async delete() {
-    return await this.commentModel.deleteMany({});
+  delete() {
+    return this.commentModel.deleteMany({});
   }
 
   async findByArticle(article_id: string) {

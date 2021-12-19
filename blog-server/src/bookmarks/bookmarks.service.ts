@@ -31,9 +31,9 @@ export class BookmarksService {
     return bookmark ? true : false;
   }
 
-  async save(createBookmarkDto: CreateBookmarkDto) {
+  save(createBookmarkDto: CreateBookmarkDto) {
     const createBookmark = new this.bookmarksModel(createBookmarkDto);
-    return await createBookmark.save();
+    return createBookmark.save();
   }
 
   async delete(article_id: string, user_id: string) {

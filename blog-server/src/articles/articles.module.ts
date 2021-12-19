@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
-import { CommentSchema, Comment } from 'src/comments/comments.schema';
-import { CommentsService } from 'src/comments/comments.service';
+import { RolesGuard } from 'src/roles/roles.guard';
 import { ArticlesController } from './articles.controller';
 import { Article, ArticleSchema } from './articles.schema';
 import { ArticlesService } from './articles.service';
