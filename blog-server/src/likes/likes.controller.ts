@@ -31,20 +31,20 @@ export class LikesController {
   }
 
   @Get(':article_id')
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN, Role.USER)
   async getCount(@Param('article_id') articleId: string) {
     return await this.likeService.getLikeCountForArticle(articleId);
   }
 
   @Post()
   @ApiBody({ type: CreateLikeDto })
-  @Roles(Role.USER)
+  @Roles(Role.USER, Role.ADMIN)
   async save(@Body() createLikeDto: CreateLikeDto) {
     return await this.likeService.save(createLikeDto);
   }
 
   @Delete(':article_id/user/:user_id')
-  @Roles(Role.USER)
+  @Roles(Role.USER, Role.ADMIN)
   async delete(
     @Param('article_id') articleId: string,
     @Param('user_id') userId: string,

@@ -32,13 +32,13 @@ export class BookmarksController {
 
   @Post()
   @ApiBody({ type: CreateBookmarkDto })
-  @Roles(Role.USER)
+  @Roles(Role.ADMIN, Role.USER)
   async save(@Body() createBookmarkDto: CreateBookmarkDto) {
     return await this.bookmarksService.save(createBookmarkDto);
   }
 
   @Delete(':article_id/user/:user_id')
-  @Roles(Role.USER)
+  @Roles(Role.ADMIN, Role.USER)
   async delete(
     @Param('article_id') articleId: string,
     @Param('user_id') userId: string,
