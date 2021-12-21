@@ -40,7 +40,9 @@ export class UsersController {
   @Get('/username/:name')
   @UseGuards(JwtAuthGuard)
   async findOneByName(@Param('name') name: string): Promise<User> {
-    return await this.userService.findOneByUsername(name);
+    const user = await this.userService.findOneByUsername(name);
+    user.password = undefined;
+    return user;
   }
 
   @Post()

@@ -28,9 +28,6 @@ export class Article {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   author: User;
 
-  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] })
-  likes: User;
-
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tag' }] })
   tags: Tag;
 }

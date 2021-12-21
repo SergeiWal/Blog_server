@@ -41,7 +41,7 @@ export class CommentsController {
 
   @Post()
   @ApiBody({ type: CreateCommentDto })
-  @Roles(Role.USER)
+  @Roles(Role.ADMIN, Role.USER)
   async create(@Body() createCommentDto: CreateCommentDto) {
     return await this.commentService.create(createCommentDto);
   }

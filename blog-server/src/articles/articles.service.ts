@@ -13,9 +13,8 @@ export class ArticlesService {
   findAll() {
     return this.articleModel
       .find()
-      .populate('author')
-      .populate('likes')
-      .populate('tags');
+      .populate('author', 'name')
+      .populate('tags', 'name');
   }
 
   async findOne(id: string): Promise<Article> {
