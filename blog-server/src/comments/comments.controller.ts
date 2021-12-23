@@ -23,26 +23,26 @@ export class CommentsController {
 
   @Get()
   @Roles(Role.ADMIN, Role.USER)
-  async findAll() {
-    return await this.commentService.findAll();
+  findAll() {
+    return this.commentService.findAll();
   }
 
   @Get(':article_id')
   @Roles(Role.ADMIN, Role.USER)
-  async findByAuthor(@Param('article_id') articleId: string) {
-    return await this.commentService.findByArticle(articleId);
+  findByAuthor(@Param('article_id') articleId: string) {
+    return this.commentService.findByArticle(articleId);
   }
 
   @Delete()
   @Roles(Role.ADMIN)
-  async delete() {
-    return await this.commentService.delete();
+  delete() {
+    return this.commentService.delete();
   }
 
   @Post()
   @ApiBody({ type: CreateCommentDto })
   @Roles(Role.ADMIN, Role.USER)
-  async create(@Body() createCommentDto: CreateCommentDto) {
-    return await this.commentService.create(createCommentDto);
+  create(@Body() createCommentDto: CreateCommentDto) {
+    return this.commentService.create(createCommentDto);
   }
 }

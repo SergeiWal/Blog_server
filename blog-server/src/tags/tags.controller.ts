@@ -21,19 +21,19 @@ export class TagsController {
 
   @Get()
   @Roles(Role.USER, Role.ADMIN)
-  async findAll() {
-    return await this.tagService.findAll();
+  findAll() {
+    return this.tagService.findAll();
   }
 
   @Post(':tag')
   @Roles(Role.ADMIN)
-  async create(@Param('tag') tag: string) {
-    return await this.tagService.create(tag);
+  create(@Param('tag') tag: string) {
+    return this.tagService.create(tag);
   }
 
   @Delete(':id')
   @Roles(Role.ADMIN)
-  async delete(@Param('id') id: string) {
-    return await this.tagService.delete(id);
+  delete(@Param('id') id: string) {
+    return this.tagService.delete(id);
   }
 }

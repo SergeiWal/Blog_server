@@ -23,9 +23,7 @@ export class CommentsService {
 
   async findByArticle(article_id: string) {
     const article: Article = await this.articleService.findOne(article_id);
-    return await this.commentModel
-      .find({ article })
-      .populate('author', ['name', 'photo']);
+    return await this.commentModel.find({ article }).populate('author');
   }
 
   async create(createCommentDto: CreateCommentDto): Promise<Comment> {

@@ -26,15 +26,15 @@ export class UsersController {
   @Get()
   @Roles(Role.ADMIN)
   @UseGuards(JwtAuthGuard, RolesGuard)
-  async findAll(@Request() req): Promise<User[]> {
-    return await this.userService.findAll();
+  findAll(@Request() req) {
+    return this.userService.findAll();
   }
 
   @Get(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)
-  async findOne(@Param('id') id: string) {
-    return await this.userService.findOne(id);
+  findOne(@Param('id') id: string) {
+    return this.userService.findOne(id);
   }
 
   @Get('/username/:name')
@@ -47,28 +47,28 @@ export class UsersController {
 
   @Post()
   @ApiBody({ type: CreateUserDto })
-  async create(@Body() createUserDto: CreateUserDto): Promise<User> {
-    return await this.userService.create(createUserDto);
+  create(@Body() createUserDto: CreateUserDto): Promise<User> {
+    return this.userService.create(createUserDto);
   }
 
   @Patch('/role/:id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)
-  async setAdminRole(@Param('id') id: string) {
+  setAdminRole(@Param('id') id: string) {
     return this.userService.setAdminRole(id);
   }
 
   @Patch('/activate/:id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)
-  async setUnsetActivate(@Param('id') id: string) {
+  setUnsetActivate(@Param('id') id: string) {
     return this.userService.setUnsetActivate(id);
   }
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)
-  async deleteOne(@Param('id') id: string) {
+  deleteOne(@Param('id') id: string) {
     return this.userService.delete(id);
   }
 }

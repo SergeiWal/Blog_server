@@ -23,26 +23,26 @@ export class BookmarksController {
 
   @Get(':article_id/user/:user_id')
   @Roles(Role.ADMIN, Role.USER)
-  async isExist(
+  isExist(
     @Param('article_id') articleId: string,
     @Param('user_id') userId: string,
   ) {
-    return await this.bookmarksService.isBookmarkExist(articleId, userId);
+    return this.bookmarksService.isBookmarkExist(articleId, userId);
   }
 
   @Post()
   @ApiBody({ type: CreateBookmarkDto })
   @Roles(Role.ADMIN, Role.USER)
-  async save(@Body() createBookmarkDto: CreateBookmarkDto) {
-    return await this.bookmarksService.save(createBookmarkDto);
+  save(@Body() createBookmarkDto: CreateBookmarkDto) {
+    return this.bookmarksService.save(createBookmarkDto);
   }
 
   @Delete(':article_id/user/:user_id')
   @Roles(Role.ADMIN, Role.USER)
-  async delete(
+  delete(
     @Param('article_id') articleId: string,
     @Param('user_id') userId: string,
   ) {
-    return await this.bookmarksService.delete(articleId, userId);
+    return this.bookmarksService.delete(articleId, userId);
   }
 }

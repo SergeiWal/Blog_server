@@ -32,6 +32,16 @@ export class UsersService {
     return user;
   }
 
+  async findOneByUsernameWithPassword(name: string) {
+    const user: User = await this.usersModel
+      .findOne({ name })
+      .select(['name', 'password']);
+    if (!user) {
+      throw new NotFoundException();
+    }
+    return user;
+  }
+
   async create(createUserDto: CreateUserDto): Promise<User> {
     const createUser = new this.usersModel(createUserDto);
     const salt = await bcrypt.genSalt();
@@ -59,6 +69,7 @@ export class UsersService {
 
   async delete(id: string): Promise<User> {
     const user: User = await this.usersModel.findByIdAndDelete(id);
+
     if (!user) {
       throw new NotFoundException();
     }

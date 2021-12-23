@@ -23,21 +23,21 @@ export class ArticlesController {
 
   @Get()
   @Roles(Role.ADMIN, Role.USER)
-  async findAll() {
-    return await this.articleService.findAll();
+  findAll() {
+    return this.articleService.findAll();
   }
 
   @Get(':id')
   @Roles(Role.ADMIN, Role.USER)
-  async findOne(@Param('id') id: string) {
-    return await this.articleService.findOne(id);
+  findOne(@Param('id') id: string) {
+    return this.articleService.findOne(id);
   }
 
   @Post()
   @ApiBody({ type: CrerateArticleDto })
   @Roles(Role.USER)
-  async create(@Body() crerateArticleDto: CrerateArticleDto) {
-    return await this.articleService.create(crerateArticleDto);
+  create(@Body() crerateArticleDto: CrerateArticleDto) {
+    return this.articleService.create(crerateArticleDto);
   }
 
   @Delete(':id')

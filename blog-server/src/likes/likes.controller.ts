@@ -23,32 +23,32 @@ export class LikesController {
 
   @Get(':article_id/user/:user_id')
   @Roles(Role.ADMIN, Role.USER)
-  async isExist(
+  isExist(
     @Param('article_id') articleId: string,
     @Param('user_id') userId: string,
   ) {
-    return await this.likeService.isLikeExist(articleId, userId);
+    return this.likeService.isLikeExist(articleId, userId);
   }
 
   @Get(':article_id')
   @Roles(Role.ADMIN, Role.USER)
-  async getCount(@Param('article_id') articleId: string) {
-    return await this.likeService.getLikeCountForArticle(articleId);
+  getCount(@Param('article_id') articleId: string) {
+    return this.likeService.getLikeCountForArticle(articleId);
   }
 
   @Post()
   @ApiBody({ type: CreateLikeDto })
   @Roles(Role.USER, Role.ADMIN)
-  async save(@Body() createLikeDto: CreateLikeDto) {
-    return await this.likeService.save(createLikeDto);
+  save(@Body() createLikeDto: CreateLikeDto) {
+    return this.likeService.save(createLikeDto);
   }
 
   @Delete(':article_id/user/:user_id')
   @Roles(Role.USER, Role.ADMIN)
-  async delete(
+  delete(
     @Param('article_id') articleId: string,
     @Param('user_id') userId: string,
   ) {
-    return await this.likeService.delete(articleId, userId);
+    return this.likeService.delete(articleId, userId);
   }
 }
