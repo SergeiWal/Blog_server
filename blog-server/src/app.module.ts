@@ -10,6 +10,7 @@ import { TagsModule } from './tags/tags.module';
 import { LikesModule } from './likes/likes.module';
 import { BookmarksModule } from './bookmarks/bookmarks.module';
 import { AuthModule } from './auth/auth.module';
+import { SocketModule } from './gateway/socket.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { AuthModule } from './auth/auth.module';
     LikesModule,
     BookmarksModule,
     AuthModule,
+    SocketModule,
   ],
   controllers: [AppController],
   providers: [AppService],
