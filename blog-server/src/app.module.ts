@@ -14,7 +14,9 @@ import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ envFilePath: 'app.env' }),
-    MongooseModule.forRoot(process.env.DB_URL),
+    MongooseModule.forRoot(
+      process.env.DB_URL || 'mongodb://127.0.0.1:27017/blog',
+    ),
     CommentsModule,
     UsersModule,
     ArticlesModule,

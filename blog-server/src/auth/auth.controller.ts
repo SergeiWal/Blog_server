@@ -13,7 +13,6 @@ export class AuthController {
   @Get()
   getUserByToken(@Request() req) {
     const user = req.user;
-    user.password = undefined;
     return user;
   }
 

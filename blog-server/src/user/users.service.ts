@@ -5,11 +5,13 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { User, UserDocument } from './users.schema';
 import * as bcrypt from 'bcrypt';
 import { Role } from 'src/roles/role.enum';
+import { Article, ArticleDocument } from 'src/articles/articles.schema';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectModel(User.name) private usersModel: Model<UserDocument>,
+    @InjectModel(Article.name) private articleModel: Model<ArticleDocument>,
   ) {}
 
   findAll() {
@@ -68,11 +70,14 @@ export class UsersService {
   }
 
   async delete(id: string): Promise<User> {
-    const user: User = await this.usersModel.findByIdAndDelete(id);
+    const user: User = await this.usersModel.findById(id);
 
     if (!user) {
       throw new NotFoundException();
     }
-    return user;
+
+    this.articleModel.deleteMany({ author: user });
+
+    return this.usersModel.findByIdAndDelete(id);
   }
 }
