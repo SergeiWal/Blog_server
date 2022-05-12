@@ -7,9 +7,8 @@ import {
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
-import { Server, Socket } from 'socket.io';
 
-@WebSocketGateway()
+@WebSocketGateway(3026)
 export class SocketGateway
   implements
     OnGatewayInit,
@@ -18,16 +17,16 @@ export class SocketGateway
     OnModuleInit
 {
   @WebSocketServer()
-  private server: Server;
+  private server;
 
-  @SubscribeMessage('messageToServer')
-  handleMessage(client: Socket, payload: string): void {
-    console.log('Message from client: ', payload);
-    this.server.emit('Hello');
+  @SubscribeMessage('message')
+  handleMessage(client: any, payload: string) {
+    console.log('Message have cautched');
+    return 'Hello';
   }
 
   sendMessageToClient(message: string) {
-    this.server.emit(message);
+    this.server.send(message);
   }
 
   handleDisconnect(client: any) {
@@ -35,6 +34,7 @@ export class SocketGateway
   }
 
   handleConnection(client: any, ...args: any[]) {
+    client.send('Hello');
     console.log('Client connected');
   }
 
