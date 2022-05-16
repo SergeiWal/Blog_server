@@ -3,9 +3,16 @@ import { AppModule } from './app.module';
 import * as cors from 'cors';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { WsAdapter } from '@nestjs/platform-ws';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {});
+  const httpsOptions = {
+    key: readFileSync(join(__dirname, '/../src/secrets/RS-BLOG.key')),
+    cert: readFileSync(join(__dirname, '/../src/secrets/RS-BLOG.crt')),
+  };
+
+  const app = await NestFactory.create(AppModule, { httpsOptions });
 
   const config = new DocumentBuilder()
     .setTitle('Blog-server')
