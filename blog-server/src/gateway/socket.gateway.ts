@@ -1,48 +1,39 @@
 import { OnModuleInit } from '@nestjs/common';
-import {
-  OnGatewayConnection,
-  OnGatewayDisconnect,
-  OnGatewayInit,
-  SubscribeMessage,
-  WebSocketGateway,
-  WebSocketServer,
-} from '@nestjs/websockets';
+import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import WebSocket, { WebSocketServer as WsServer } from 'ws';
+import { SocketService } from './socket.service';
 
 @WebSocketGateway(3026)
-export class SocketGateway
-  implements
-    OnGatewayInit,
-    OnGatewayConnection,
-    OnGatewayDisconnect,
-    OnModuleInit
-{
+export class SocketGateway implements OnModuleInit {
+  constructor(private socketService: SocketService) {}
+
   @WebSocketServer()
-  private server;
-
-  @SubscribeMessage('message')
-  handleMessage(client: any, payload: string) {
-    console.log('Message have cautched');
-    return 'Hello';
-  }
-
-  sendMessageToClient(message: string) {
-    this.server.send(message);
-  }
-
-  handleDisconnect(client: any) {
-    console.log('Client disconnected');
-  }
-
-  handleConnection(client: any, ...args: any[]) {
-    client.send('Hello');
-    console.log('Client connected');
-  }
-
-  afterInit(server: any) {
-    console.log('WebSocket server init');
-  }
+  private server: WsServer;
 
   onModuleInit() {
     console.log('Websockets gateway init');
+    this.server.on('connection', (client) => {
+      console.log('Client connected');
+      //client.send(JSON.stringify({ message: 'HANDSHAKE was successfull' }));
+
+      client.on('message', async (payload) => {
+        const message = await this.socketService.WSDispatcher(
+          JSON.parse(payload.toString()),
+        );
+
+        if (message) {
+          client.send(JSON.stringify(message));
+          this.server.clients.forEach((client) => {
+            if (client !== client && client.readyState === WebSocket.OPEN) {
+              client.send(JSON.stringify(message));
+            }
+          });
+        } else {
+          client.send({
+            message: `Socket gateway hasn't understood client message`,
+          });
+        }
+      });
+    });
   }
 }

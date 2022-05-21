@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Post,
+  Request,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
@@ -23,7 +24,7 @@ export class ArticlesController {
 
   @Get()
   @Roles(Role.ADMIN, Role.USER)
-  findAll() {
+  findAll(@Request() req) {
     return this.articleService.findAll();
   }
 
