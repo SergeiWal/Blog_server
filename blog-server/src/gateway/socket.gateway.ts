@@ -1,6 +1,8 @@
 import { OnModuleInit } from '@nestjs/common';
 import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import WebSocket, { WebSocketServer as WsServer } from 'ws';
+import { WSMessageType } from './socket.constants';
+import { WSClientMessage } from './socket.interfaces';
 import { SocketService } from './socket.service';
 
 @WebSocketGateway(3026)
@@ -10,28 +12,24 @@ export class SocketGateway implements OnModuleInit {
   @WebSocketServer()
   private server: WsServer;
 
+  private clients: WebSocket.WebSocket[] = [];
+
   onModuleInit() {
     console.log('Websockets gateway init');
     this.server.on('connection', (client) => {
       console.log('Client connected');
-      //client.send(JSON.stringify({ message: 'HANDSHAKE was successfull' }));
+      this.clients.push(client);
 
       client.on('message', async (payload) => {
-        const message = await this.socketService.WSDispatcher(
-          JSON.parse(payload.toString()),
-        );
+        const wsClientMessage: WSClientMessage = JSON.parse(payload.toString());
+        const message = await this.socketService.WSDispatcher(wsClientMessage);
 
-        if (message) {
-          client.send(JSON.stringify(message));
-          this.server.clients.forEach((client) => {
-            if (client !== client && client.readyState === WebSocket.OPEN) {
-              client.send(JSON.stringify(message));
+        if (message && wsClientMessage.type !== WSMessageType.HANDSHAKE) {
+          for (let item of this.clients) {
+            if (item !== client && item.readyState === 1) {
+              item.send(JSON.stringify(message));
             }
-          });
-        } else {
-          client.send({
-            message: `Socket gateway hasn't understood client message`,
-          });
+          }
         }
       });
     });
