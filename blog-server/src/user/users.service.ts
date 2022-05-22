@@ -70,13 +70,13 @@ export class UsersService {
   }
 
   async delete(id: string): Promise<User> {
-    const user: User = await this.usersModel.findById(id);
+    const user = await this.usersModel.findById(id);
 
     if (!user) {
       throw new NotFoundException();
     }
 
-    this.articleModel.deleteMany({ author: user });
+    await this.articleModel.deleteMany({ author: user });
 
     return this.usersModel.findByIdAndDelete(id);
   }
